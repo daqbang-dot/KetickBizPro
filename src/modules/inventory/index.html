@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory | KETICK Basic Asset Management</title>
+    <link rel="stylesheet" href="../../../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .inventory-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-back {
+            text-decoration: none;
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Inventory Summary Cards */
+        .inv-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        .stat-card h4 {
+            margin: 0;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .stat-card .val {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* Asset Table */
+        .asset-table-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 0.9rem;
+        }
+
+        .stock-level {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .level-low { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+        .level-good { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
+
+        /* Quick Action Floating Button */
+        .btn-add {
+            background: var(--gold, #D4AF37);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body class="level-operator">
+
+    <div class="inventory-container">
+        <div class="nav-header">
+            <a href="../../../index.html" class="nav-back">← Dashboard</a>
+            <button class="btn-add">+ Add Asset</button>
+        </div>
+
+        <header style="margin-bottom: 30px;">
+            <h1 style="margin:0; font-size: 1.8rem;">Global Inventory</h1>
+            <p style="color: #94a3b8; font-size: 0.9rem;">Real-time asset tracking and stock management.</p>
+        </header>
+
+        <div class="inv-stats">
+            <div class="stat-card">
+                <h4>Total Items</h4>
+                <div class="val">1,240</div>
+            </div>
+            <div class="stat-card">
+                <h4>Low Stock Alert</h4>
+                <div class="val" style="color: #ef4444;">12</div>
+            </div>
+            <div class="stat-card">
+                <h4>Warehouse Value</h4>
+                <div class="val">RM 45,200</div>
+            </div>
+        </div>
+
+        <div class="asset-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Item Name</th>
+                        <th>Category</th>
+                        <th>In Stock</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color: #94a3b8;">#KT-001</td>
+                        <td>Premium Server Rack</td>
+                        <td>Hardware</td>
+                        <td>45</td>
+                        <td><span class="stock-level level-good">In Stock</span></td>
+                    </tr>
+                    <tr>
+                        <td style="color: #94a3b8;">#KT-002</td>
+                        <td>Fiber Optical Cable</td>
+                        <td>Cables</td>
+                        <td>08</td>
+                        <td><span class="stock-level level-low">Low Stock</span></td>
+                    </tr>
+                    <tr>
+                        <td style="color: #94a3b8;">#KT-003</td>
+                        <td>Elite Workstation</td>
+                        <td>Systems</td>
+                        <td>12</td>
+                        <td><span class="stock-level level-good">In Stock</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import untuk sinkronisasi tema secara dinamik
+        import { masterConfig } from '../../core/master_config.js';
+        
+        // Simulasi setting tema ikut level semasa
+        const currentUser = 'operator'; // Nanti dinamik ikut login
+        document.body.className = masterConfig.roles[currentUser].theme;
+    </script>
+</body>
+</html>
