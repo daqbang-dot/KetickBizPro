@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KETICK Elite | Command Center</title>
+    <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
+        /* Style tambahan khusus untuk Dashboard utama */
         :root {
             --obsidian: #0A0A0A;
             --gold: #D4AF37;
-            --slate: #1A1A1A;
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
@@ -17,13 +18,9 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--obsidian);
-            color: #FFFFFF;
-            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
-        /* Hero / Pulse Section */
         .command-header {
             height: 40vh;
             display: flex;
@@ -50,7 +47,6 @@
             color: #888;
         }
 
-        /* Grid Modul */
         .module-grid {
             padding: 2rem;
             display: grid;
@@ -60,6 +56,7 @@
             margin: 0 auto;
         }
 
+        /* Card DNA */
         .module-card {
             background: var(--glass);
             border: 1px solid var(--glass-border);
@@ -70,9 +67,10 @@
             cursor: pointer;
             text-decoration: none;
             color: white;
+            display: block;
         }
 
-        .module-card:hover {
+        .module-card:hover:not(.locked) {
             border-color: var(--gold);
             transform: translateY(-5px);
             background: rgba(212, 175, 55, 0.05);
@@ -96,46 +94,98 @@
             background: var(--gold);
             margin-top: 1rem;
         }
+
+        .locked {
+            opacity: 0.4;
+            filter: grayscale(1);
+            cursor: not-allowed;
+            border-style: dashed;
+        }
+
+        .lock-icon {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
     </style>
 </head>
-<body>
+<body class="level-ceo">
 
     <header class="command-header">
-        <div class="status-pulse">Sovereign Control Active</div>
-        <h1>THE PULSE</h1>
+        <div class="status-pulse" id="access-label">Sovereign Control Active</div>
+        <h1 id="header-title">THE PULSE</h1>
         <div id="live-profit" style="font-size: 3rem; font-weight: 300; margin-top: 10px;">
             RM 0.00
         </div>
     </header>
 
-    <main class="module-grid">
-        <a href="src/modules/executive/index.html" class="module-card">
-            <h3>The Architect</h3>
-            <p>Executive analytics & team performance matrix.</p>
-            <div class="indicator"></div>
-        </a>
+    <main class="module-grid" id="main-grid">
+        </main>
 
-        <a href="src/modules/operator/index.html" class="module-card">
-            <h3>The Specialist</h3>
-            <p>Operational workflow & real-time tasking.</p>
-            <div class="indicator"></div>
-        </a>
+    <script type="module">
+        // Import logic (dalam production gunakan path sebenar)
+        // Simulasi data dari src/core/access_control.js
+        const systemConfig = {
+            subscriptions: {
+                executive: true,   // Modul Architect
+                operator: true,    // Modul Specialist
+                inventory: true,   // Modul Inventory
+                sales: false       // Add-on Belum Beli
+            },
+            permissions: {
+                ceo: ["executive", "operator", "inventory", "sales"],
+                executive: ["executive", "inventory"],
+                operator: ["operator"]
+            }
+        };
 
-        <a href="src/modules/inventory/index.html" class="module-card">
-            <h3>Global Inventory</h3>
-            <p>Asset management & luxury resource tracking.</p>
-            <div class="indicator"></div>
-        </a>
+        const modules = [
+            { id: 'executive', title: 'The Architect', desc: 'Executive analytics & performance.' },
+            { id: 'operator', title: 'The Specialist', desc: 'Operational workflow & tasking.' },
+            { id: 'inventory', title: 'Global Inventory', desc: 'Asset & luxury resource tracking.' },
+            { id: 'sales', title: 'Revenue Hub', desc: 'Deep-dive into transaction flow.' }
+        ];
 
-        <a href="src/modules/sales/index.html" class="module-card">
-            <h3>Revenue Hub</h3>
-            <p>Deep-dive into transaction history & flow.</p>
-            <div class="indicator"></div>
-        </a>
-    </main>
+        // TUKAR USER DI SINI UNTUK TESTING (ceo / executive / operator)
+        const currentUserLevel = 'ceo'; 
 
-    <script>
-        // Animasi ringkas untuk "The Pulse" agar nampak hidup
+        function renderDashboard() {
+            const grid = document.getElementById('main-grid');
+            const accessLabel = document.getElementById('access-label');
+            grid.innerHTML = '';
+
+            // Update Label Header
+            accessLabel.innerText = `${currentUserLevel.toUpperCase()} Access Active`;
+
+            modules.forEach(mod => {
+                const isSubscribed = systemConfig.subscriptions[mod.id];
+                const hasPermission = systemConfig.permissions[currentUserLevel].includes(mod.id);
+
+                if (isSubscribed && hasPermission) {
+                    // Tunjuk Kad Aktif
+                    grid.innerHTML += `
+                        <a href="src/modules/${mod.id}/index.html" class="module-card">
+                            <h3>${mod.title}</h3>
+                            <p>${mod.desc}</p>
+                            <div class="indicator"></div>
+                        </a>`;
+                } else if (!isSubscribed && currentUserLevel === 'ceo') {
+                    // Jika CEO dan modul belum dibeli (SaaS Upsell)
+                    grid.innerHTML += `
+                        <div class="module-card locked">
+                            <h3>${mod.title}</h3>
+                            <p>Premium Add-on</p>
+                            <div class="lock-icon">🔒 Unlock for Elite Access</div>
+                        </div>`;
+                }
+                // Jika Operator/Exec tak ada permission, modul terus disorok (Suku/Separuh akses)
+            });
+        }
+
+        // Logic Pulse Profit
         let profit = 125480.50;
         const profitElement = document.getElementById('live-profit');
         
@@ -146,6 +196,7 @@
         
         setInterval(updatePulse, 3000);
         updatePulse();
+        renderDashboard();
     </script>
 </body>
 </html>
