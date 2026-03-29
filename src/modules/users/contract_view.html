@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Contract | KETICK Elite</title>
+    <link rel="stylesheet" href="../../../assets/css/style.css">
+    <style>
+        body {
+            background: #fdfdfd; /* Warna kertas putih bersih */
+            color: #1a1a1a;
+            padding: 50px 20px;
+        }
+
+        .letterhead {
+            text-align: center;
+            border-bottom: 2px solid #D4AF37;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .contract-paper {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .contract-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            text-decoration: underline;
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin-top: 25px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            color: #D4AF37;
+        }
+
+        .signature-area {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sig-box {
+            border-top: 1px solid #ddd;
+            width: 200px;
+            padding-top: 10px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .status-stamp {
+            position: absolute;
+            transform: rotate(-15deg);
+            border: 3px solid #22c55e;
+            color: #22c55e;
+            padding: 5px 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            opacity: 0.3;
+            top: 100px;
+            right: 50px;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { padding: 0; background: white; }
+            .contract-paper { box-shadow: none; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contract-paper" style="position: relative;">
+        <div class="status-stamp">DIGITAL SIGNED</div>
+
+        <div class="letterhead">
+            <h1 style="font-family: 'Playfair Display'; margin:0; color:#D4AF37;">KETICK SPACE</h1>
+            <p style="font-size: 0.7rem; letter-spacing: 2px; color: #888;">AZLANMYMO SOLUTIONS • BUSINESS AUTOMATION</p>
+        </div>
+
+        <div class="contract-title">SURAT TAWARAN PERKHIDMATAN (DIGITAL)</div>
+
+        <p><strong>Tarikh:</strong> <span id="currentDate">30 Mac 2026</span></p>
+        <p><strong>Kepada:</strong> <span id="staffName">Operator Alpha</span></p>
+
+        <p>Dengan hormatnya perkara di atas adalah dirujuk. Kami di <strong>KETICK SPACE</strong> dengan sukacitanya menawarkan jawatan sebagai <strong><span id="staffRole">Specialist</span></strong> bermula pada tarikh yang ditetapkan.</p>
+
+        <div class="section-title">1. SKOP KERJA & TANGGUNGJAWAB</div>
+        <p>Anda bertanggungjawab sepenuhnya terhadap integriti data dalam modul Inventory dan memastikan kelancaran operasi harian sistem KETICK yang dibekalkan.</p>
+
+        <div class="section-title">2. KERHSIAAN DATA (CONFIDENTIALITY)</div>
+        <p>Sebagai pemegang akses sistem, anda dilarang sama sekali membocorkan maklumat dalaman syarikat, data pelanggan, atau struktur kod sistem kepada pihak ketiga tanpa kebenaran CEO.</p>
+
+        <div class="section-title">3. AKSES SISTEM</div>
+        <p>Akses anda adalah terhad kepada <strong><span id="accessType">Operator Level</span></strong> sahaja. Sebarang cubaan menceroboh modul Executive akan dianggap sebagai pelanggaran kontrak.</p>
+
+        <div class="signature-area">
+            <div class="sig-box">
+                <p><strong>AZLANMYMO</strong></p>
+                <p>Ketua Pegawai Eksekutif</p>
+            </div>
+            <div class="sig-box">
+                <p><strong><span id="staffSig">Staff Name</span></strong></p>
+                <p>Penerima Tawaran</p>
+            </div>
+        </div>
+
+        <div class="no-print" style="margin-top: 50px; text-align: center;">
+            <button onclick="window.print()" style="padding: 10px 25px; background: #1a1a1a; color: white; border-radius: 5px; cursor: pointer; border: none;">Cetak / Simpan PDF</button>
+            <button onclick="window.history.back()" style="padding: 10px 25px; background: transparent; color: #888; border: none; cursor: pointer;">Kembali ke Profil</button>
+        </div>
+    </div>
+
+    <script>
+        // Logik untuk isi data secara dinamik dari URL (Contoh: ?name=Alpha&role=Operator)
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('name')) document.getElementById('staffName').innerText = params.get('name');
+        if(params.get('role')) document.getElementById('staffRole').innerText = params.get('role');
+        if(params.get('name')) document.getElementById('staffSig').innerText = params.get('name');
+    </script>
+</body>
+</html>
