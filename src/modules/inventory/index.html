@@ -62,6 +62,38 @@
             margin-top: 5px;
         }
 
+        /* Search Bar Style */
+        .search-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        #inventorySearch {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: inherit; /* Ikut warna tema level */
+            padding: 15px 45px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #inventorySearch:focus {
+            border-color: #D4AF37;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+        }
+
         /* Asset Table */
         .asset-table-container {
             background: rgba(255, 255, 255, 0.02);
@@ -101,9 +133,8 @@
         .level-low { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
         .level-good { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
 
-        /* Quick Action Floating Button */
         .btn-add {
-            background: var(--gold, #D4AF37);
+            background: #D4AF37;
             color: #000;
             border: none;
             padding: 12px 20px;
@@ -142,6 +173,11 @@
             </div>
         </div>
 
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="inventorySearch" placeholder="Cari SKU, Nama Item atau Kategori...">
+        </div>
+
         <div class="asset-table-container">
             <table>
                 <thead>
@@ -153,40 +189,67 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td style="color: #94a3b8;">#KT-001</td>
-                        <td>Premium Server Rack</td>
-                        <td>Hardware</td>
+                <tbody id="inventoryBody">
+                    <tr class="inventory-row">
+                        <td class="sku-cell" style="color: #94a3b8;">#KT-001</td>
+                        <td class="name-cell">Premium Server Rack</td>
+                        <td class="cat-cell">Hardware</td>
                         <td>45</td>
                         <td><span class="stock-level level-good">In Stock</span></td>
                     </tr>
-                    <tr>
-                        <td style="color: #94a3b8;">#KT-002</td>
-                        <td>Fiber Optical Cable</td>
-                        <td>Cables</td>
+                    <tr class="inventory-row">
+                        <td class="sku-cell" style="color: #94a3b8;">#KT-002</td>
+                        <td class="name-cell">Fiber Optical Cable</td>
+                        <td class="cat-cell">Cables</td>
                         <td>08</td>
                         <td><span class="stock-level level-low">Low Stock</span></td>
                     </tr>
-                    <tr>
-                        <td style="color: #94a3b8;">#KT-003</td>
-                        <td>Elite Workstation</td>
-                        <td>Systems</td>
+                    <tr class="inventory-row">
+                        <td class="sku-cell" style="color: #94a3b8;">#KT-003</td>
+                        <td class="name-cell">Elite Workstation</td>
+                        <td class="cat-cell">Systems</td>
                         <td>12</td>
                         <td><span class="stock-level level-good">In Stock</span></td>
                     </tr>
                 </tbody>
             </table>
+            <div id="noResults" style="display: none; padding: 40px; text-align: center; color: #64748b;">
+                Tiada item dijumpai dengan carian tersebut.
+            </div>
         </div>
     </div>
 
     <script type="module">
-        // Import untuk sinkronisasi tema secara dinamik
         import { masterConfig } from '../../core/master_config.js';
         
-        // Simulasi setting tema ikut level semasa
-        const currentUser = 'operator'; // Nanti dinamik ikut login
+        // Simulasi setting tema
+        const currentUser = 'operator'; 
         document.body.className = masterConfig.roles[currentUser].theme;
+
+        // LOGIK SEARCH "ULTRA-FAST"
+        const searchInput = document.getElementById('inventorySearch');
+        const rows = document.querySelectorAll('.inventory-row');
+        const noResults = document.getElementById('noResults');
+
+        searchInput.addEventListener('keyup', function(e) {
+            const term = e.target.value.toLowerCase();
+            let foundAny = false;
+
+            rows.forEach(row => {
+                const sku = row.querySelector('.sku-cell').textContent.toLowerCase();
+                const name = row.querySelector('.name-cell').textContent.toLowerCase();
+                const cat = row.querySelector('.cat-cell').textContent.toLowerCase();
+
+                if (sku.includes(term) || name.includes(term) || cat.includes(term)) {
+                    row.style.display = ""; 
+                    foundAny = true;
+                } else {
+                    row.style.display = "none";
+                }
+            });
+
+            noResults.style.display = foundAny ? "none" : "block";
+        });
     </script>
 </body>
 </html>
