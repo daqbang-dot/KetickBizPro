@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KETICK Elite | Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #0A0A0A;
+            --gold: #D4AF37;
+            --slate: #1A1A1A;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--obsidian);
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Hero / Pulse Section */
+        .command-header {
+            height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-bottom: 1px solid var(--glass-border);
+            background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .status-pulse {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #888;
+        }
+
+        /* Grid Modul */
+        .module-grid {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .module-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+
+        .module-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .module-card h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+
+        .module-card p {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-top: 0.5rem;
+        }
+
+        .indicator {
+            height: 2px;
+            width: 30px;
+            background: var(--gold);
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="command-header">
+        <div class="status-pulse">Sovereign Control Active</div>
+        <h1>THE PULSE</h1>
+        <div id="live-profit" style="font-size: 3rem; font-weight: 300; margin-top: 10px;">
+            RM 0.00
+        </div>
+    </header>
+
+    <main class="module-grid">
+        <a href="src/modules/executive/index.html" class="module-card">
+            <h3>The Architect</h3>
+            <p>Executive analytics & team performance matrix.</p>
+            <div class="indicator"></div>
+        </a>
+
+        <a href="src/modules/operator/index.html" class="module-card">
+            <h3>The Specialist</h3>
+            <p>Operational workflow & real-time tasking.</p>
+            <div class="indicator"></div>
+        </a>
+
+        <a href="src/modules/inventory/index.html" class="module-card">
+            <h3>Global Inventory</h3>
+            <p>Asset management & luxury resource tracking.</p>
+            <div class="indicator"></div>
+        </a>
+
+        <a href="src/modules/sales/index.html" class="module-card">
+            <h3>Revenue Hub</h3>
+            <p>Deep-dive into transaction history & flow.</p>
+            <div class="indicator"></div>
+        </a>
+    </main>
+
+    <script>
+        // Animasi ringkas untuk "The Pulse" agar nampak hidup
+        let profit = 125480.50;
+        const profitElement = document.getElementById('live-profit');
+        
+        function updatePulse() {
+            profit += (Math.random() * 10);
+            profitElement.innerText = 'RM ' + profit.toLocaleString(undefined, {minimumFractionDigits: 2});
+        }
+        
+        setInterval(updatePulse, 3000);
+        updatePulse();
+    </script>
+</body>
+</html>
