@@ -7,130 +7,42 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --obsidian: #0A0A0A;
-            --gold: #D4AF37;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            transition: background 0.5s ease;
-        }
-
-        .command-header {
-            height: 40vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-bottom: 1px solid var(--glass-border);
-            background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: var(--gold);
-            margin-bottom: 0.5rem;
-            letter-spacing: 2px;
-        }
-
-        .status-pulse {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: #888;
-        }
-
-        .module-grid {
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .module-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 1.5rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            display: block;
-        }
-
-        .module-card:hover:not(.locked) {
-            border-color: var(--gold);
-            transform: translateY(-5px);
-            background: rgba(212, 175, 55, 0.05);
-        }
-
-        .module-card h3 {
-            margin: 0;
-            font-size: 1.2rem;
-            color: var(--gold);
-        }
-
-        .module-card p {
-            font-size: 0.85rem;
-            color: #aaa;
-            margin-top: 0.5rem;
-        }
-
-        .indicator {
-            height: 2px;
-            width: 30px;
-            background: var(--gold);
-            margin-top: 1rem;
-        }
-
-        .locked {
-            opacity: 0.4;
-            filter: grayscale(1);
-            cursor: not-allowed;
-            border-style: dashed;
-        }
-
-        .lock-icon {
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--gold);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+        :root { --obsidian: #0A0A0A; --gold: #D4AF37; --glass: rgba(255, 255, 255, 0.03); --glass-border: rgba(255, 255, 255, 0.1); }
+        body { margin: 0; padding: 0; overflow-x: hidden; transition: background 0.5s ease; background: var(--obsidian); color: white; }
+        .command-header { height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 1px solid var(--glass-border); background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%); }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold); margin-bottom: 0.5rem; letter-spacing: 2px; }
+        .status-pulse { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: #888; margin-bottom: 10px; }
+        .module-grid { padding: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+        .module-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 15px; padding: 1.5rem; backdrop-filter: blur(10px); transition: all 0.3s ease; cursor: pointer; text-decoration: none; color: white; display: block; }
+        .module-card:hover:not(.locked) { border-color: var(--gold); transform: translateY(-5px); background: rgba(212, 175, 55, 0.05); }
+        .module-card h3 { margin: 0; font-size: 1.1rem; color: var(--gold); }
+        .module-card p { font-size: 0.8rem; color: #aaa; margin-top: 0.5rem; }
+        .indicator { height: 2px; width: 30px; background: var(--gold); margin-top: 1rem; }
+        .locked { opacity: 0.4; filter: grayscale(1); cursor: not-allowed; border-style: dashed; }
+        .lock-icon { margin-top: 10px; font-size: 0.7rem; color: var(--gold); display: flex; align-items: center; gap: 5px; }
+        .btn-logout { position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; background: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.2); color: #ff4444; border-radius: 5px; cursor: pointer; font-size: 0.7rem; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
+    <button class="btn-logout" onclick="localStorage.removeItem('ketick_user_level'); location.reload();">TERMINATE SESSION</button>
+
     <header class="command-header">
-        <div class="status-pulse" id="access-label">Loading System...</div>
+        <div class="status-pulse" id="access-label">Verifying System...</div>
         <h1 id="header-title">THE PULSE</h1>
-        <div id="live-profit" style="font-size: 3rem; font-weight: 300; margin-top: 10px;">
-            RM 0.00
-        </div>
+        <div id="live-profit" style="font-size: 2.5rem; font-weight: 300; margin-top: 10px;">RM 0.00</div>
     </header>
 
-    <main class="module-grid" id="main-grid">
-        </main>
+    <main class="module-grid" id="main-grid"></main>
 
     <script type="module">
-        // Mengimport konfigurasi dari fail master
+        // 1. SECURITY GUARD (Wajib di atas sekali)
+        const session = localStorage.getItem('ketick_user_level');
+        if (!session) { window.location.href = 'login.html'; }
+
         import { masterConfig, checkAccess } from './src/core/master_config.js';
 
-        // TUKAR USER DI SINI UNTUK TESTING: 'ceo', 'executive', atau 'operator'
-        const currentUser = 'ceo'; 
-
+        const currentUser = session; 
         const allModules = [
             { id: 'executive', title: 'The Architect', desc: 'Management & Strategic Analytics' },
             { id: 'operator', title: 'The Specialist', desc: 'Operational Workflow & Tasks' },
@@ -142,29 +54,25 @@
             const body = document.body;
             const grid = document.getElementById('main-grid');
             const accessLabel = document.getElementById('access-label');
-            
-            // 1. Set Tema & Label secara automatik mengikut Level
             const userRole = masterConfig.roles[currentUser];
+            
+            if(!userRole) return;
+
             body.className = userRole.theme;
             accessLabel.innerText = `${userRole.label} Access Active`;
+            document.getElementById('header-title').innerText = currentUser === 'ceo' ? 'THE PULSE' : 'COMMAND CENTER';
 
             grid.innerHTML = '';
-
-            // 2. Loop semua modul dengan logik checkAccess
             allModules.forEach(mod => {
                 const access = checkAccess(currentUser, mod.id);
-
                 if (access.canView) {
-                    // Tunjuk Modul Aktif (Akses Penuh)
                     grid.innerHTML += `
                         <a href="src/modules/${mod.id}/index.html" class="module-card">
                             <h3>${mod.title}</h3>
                             <p>${mod.desc}</p>
                             <div class="indicator"></div>
                         </a>`;
-                } 
-                else if (access.isLocked && currentUser === 'ceo') {
-                    // Jika CEO, tunjuk modul sebagai "Locked" (Strategi Upsell)
+                } else if (access.isLocked && currentUser === 'ceo') {
                     grid.innerHTML += `
                         <div class="module-card locked">
                             <h3>${mod.title}</h3>
@@ -172,23 +80,17 @@
                             <div class="lock-icon">🔒 Contact KETICK to Activate</div>
                         </div>`;
                 }
-                // Jika Operator/Exec tidak mempunyai kebenaran, modul disorok sepenuhnya
             });
         }
 
-        // Logic Pulse Profit (Visual Gimmick)
+        // Gimmick Live Profit
         let profit = 125480.50;
         const profitElement = document.getElementById('live-profit');
-        
-        function updatePulse() {
-            profit += (Math.random() * 10);
+        setInterval(() => {
+            profit += (Math.random() * 5);
             profitElement.innerText = 'RM ' + profit.toLocaleString(undefined, {minimumFractionDigits: 2});
-        }
-        
-        setInterval(updatePulse, 3000);
-        updatePulse();
+        }, 3000);
 
-        // Jalankan sistem
         initDashboard();
     </script>
 </body>
