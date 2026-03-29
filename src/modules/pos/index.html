@@ -14,6 +14,7 @@
             background: #0a0a0a;
             color: white;
             overflow: hidden;
+            font-family: 'Inter', sans-serif;
         }
 
         /* Layout Utama */
@@ -48,11 +49,11 @@
         }
 
         .product-card:hover {
-            border-color: var(--gold);
+            border-color: #D4AF37;
             background: rgba(212, 175, 55, 0.1);
         }
 
-        .product-price { color: var(--gold); font-weight: 600; margin-top: 5px; }
+        .product-price { color: #D4AF37; font-weight: 600; margin-top: 5px; }
 
         /* Bahagian Cart (Kanan) */
         .cart-section {
@@ -78,7 +79,7 @@
         }
 
         .cart-total {
-            border-top: 2px solid var(--gold);
+            border-top: 2px solid #D4AF37;
             padding-top: 20px;
             margin-top: 10px;
         }
@@ -86,7 +87,7 @@
         .btn-checkout {
             width: 100%;
             padding: 20px;
-            background: var(--gold);
+            background: #D4AF37;
             color: black;
             border: none;
             border-radius: 10px;
@@ -94,44 +95,50 @@
             font-size: 1.1rem;
             margin-top: 15px;
             cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-checkout:hover {
+            background: #f1c40f;
+            transform: translateY(-2px);
         }
 
         /* Mobile Optimization */
         @media (max-width: 768px) {
             .pos-wrapper { grid-template-columns: 1fr; }
-            .cart-section { height: 300px; }
+            .cart-section { height: 350px; border-top: 1px solid #333; }
         }
     </style>
 </head>
 <body class="level-operator">
 
     <header style="padding: 15px 20px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center;">
-        <a href="../../../index.html" style="color:#666; text-decoration:none;">← Back</a>
-        <div style="color:var(--gold); font-weight:bold; letter-spacing:2px;">POS TERMINAL</div>
-        <div id="pos-clock" style="font-size:0.8rem; color:#888;">00:00:00</div>
+        <a href="../../../index.html" style="color:#666; text-decoration:none; font-size: 0.8rem; font-weight: 600;">← BACK</a>
+        <div style="color:#D4AF37; font-weight:bold; letter-spacing:2px; font-size: 1.2rem;">POS TERMINAL</div>
+        <div id="pos-clock" style="font-size:0.8rem; color:#888; font-family: monospace;">00:00:00</div>
     </header>
 
     <div class="pos-wrapper">
         <div class="product-section">
             <input type="text" placeholder="Cari barang atau scan barcode..." 
-                   style="width:100%; padding:15px; margin-bottom:20px; border-radius:10px; border:1px solid #333; background:#1a1a1a; color:white;">
+                   style="width:100%; padding:15px; margin-bottom:20px; border-radius:10px; border:1px solid #333; background:#1a1a1a; color:white; outline: none; box-sizing: border-box;">
             
             <div class="product-grid" id="productGrid">
                 </div>
         </div>
 
         <div class="cart-section">
-            <h3 style="margin:0;">Current Order</h3>
+            <h3 style="margin:0; font-family: 'Playfair Display';">Current Order</h3>
             <div class="cart-items" id="cartList">
                 <p style="color:#444; text-align:center; margin-top:50px;">Bakul kosong</p>
             </div>
 
             <div class="cart-total">
-                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px; color: #888;">
                     <span>Subtotal</span>
                     <span id="subtotal">RM 0.00</span>
                 </div>
-                <div style="display:flex; justify-content:space-between; font-size:1.5rem; font-weight:bold;">
+                <div style="display:flex; justify-content:space-between; font-size:1.5rem; font-weight:bold; color: #D4AF37;">
                     <span>Total</span>
                     <span id="grandTotal">RM 0.00</span>
                 </div>
@@ -145,7 +152,8 @@
             { id: 1, name: "Premium Server", price: 2500.00 },
             { id: 2, name: "Fiber Cable 10m", price: 120.00 },
             { id: 3, name: "Elite Workstation", price: 4500.00 },
-            { id: 4, name: "Router Pro X", price: 890.00 }
+            { id: 4, name: "Router Pro X", price: 890.00 },
+            { id: 5, name: "Cloud License", price: 350.00 }
         ];
 
         let cart = [];
@@ -162,7 +170,7 @@
 
         function addToCart(id) {
             const p = products.find(prod => prod.id === id);
-            cart.push(p);
+            cart.push({...p, timestamp: Date.now()});
             updateCart();
         }
 
@@ -173,6 +181,8 @@
 
             if(cart.length === 0) {
                 list.innerHTML = `<p style="color:#444; text-align:center; margin-top:50px;">Bakul kosong</p>`;
+                sub.innerText = "RM 0.00";
+                grand.innerText = "RM 0.00";
                 return;
             }
 
@@ -188,16 +198,34 @@
             grand.innerText = `RM ${total.toFixed(2)}`;
         }
 
+        // FUNGSI CHECKOUT DENGAN INTEGRASI RESIT
         function checkout() {
             if(cart.length === 0) return alert("Bakul kosong!");
-            alert("Transaksi Berjaya! Stok telah dikurangkan.");
+
+            // 1. Simpan data ke LocalStorage untuk dibaca oleh receipt_template.html
+            const receiptData = {
+                items: cart,
+                total: cart.reduce((sum, item) => sum + item.price, 0),
+                time: new Date().toLocaleTimeString(),
+                date: new Date().toLocaleDateString('ms-MY')
+            };
+            localStorage.setItem('last_receipt', JSON.stringify(receiptData));
+
+            // 2. Makluman kepada user
+            alert("Transaksi Berjaya! Stok telah dikurangkan secara maya.");
+
+            // 3. Buka tetingkap resit secara automatik
+            const receiptWindow = window.open('receipt_template.html', '_blank', 'width=400,height=600');
+            
+            // 4. Kosongkan bakul selepas selesai
             cart = [];
             updateCart();
         }
 
         // Clock logic
         setInterval(() => {
-            document.getElementById('pos-clock').innerText = new Date().toLocaleTimeString();
+            const now = new Date();
+            document.getElementById('pos-clock').innerText = now.toLocaleTimeString();
         }, 1000);
 
         renderProducts();
