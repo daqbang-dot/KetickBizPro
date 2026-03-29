@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Vault | User Management</title>
+    <link rel="stylesheet" href="../../../assets/css/style.css">
+    <style>
+        .user-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .user-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .user-card:hover {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .user-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            object-fit: cover;
+        }
+
+        .user-info h3 { margin: 0; font-size: 1.1rem; }
+        .user-info p { margin: 5px 0; font-size: 0.8rem; color: #888; }
+
+        .badge-access {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 5px;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .action-btns {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-mini {
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            color: white;
+        }
+    </style>
+</head>
+<body class="level-ceo">
+
+    <div class="container" style="padding: 40px; max-width: 1200px; margin: 0 auto;">
+        <header>
+            <h1 style="color: var(--gold); font-family: 'Playfair Display';">THE VAULT</h1>
+            <p style="color: #666;">Personnel Registry & Access Control</p>
+        </header>
+
+        <div class="user-grid" id="userList">
+            </div>
+    </div>
+
+    <script type="module">
+        import { userRegistry } from '../../core/user_registry.js';
+
+        const list = document.getElementById('userList');
+
+        userRegistry.forEach(user => {
+            list.innerHTML += `
+                <div class="user-card">
+                    <img src="${user.photo}" class="user-photo">
+                    <div class="user-info">
+                        <h3>${user.name}</h3>
+                        <p>ID: ${user.id} • Joined: ${user.joinDate}</p>
+                        <div class="badge-access">${user.accessLevel}</div>
+                        <div class="action-btns">
+                            <button class="btn-mini" onclick="viewContract('${user.contractFile}')">📄 Contract</button>
+                            <button class="btn-mini" onclick="resetPin('${user.id}')">🔑 Reset PIN</button>
+                            <button class="btn-mini" style="border-color: #ff4444; color: #ff4444;">Terminate</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
