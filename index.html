@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* Style tambahan khusus untuk Dashboard utama */
         :root {
             --obsidian: #0A0A0A;
             --gold: #D4AF37;
@@ -19,6 +18,7 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
+            transition: background 0.5s ease;
         }
 
         .command-header {
@@ -56,7 +56,6 @@
             margin: 0 auto;
         }
 
-        /* Card DNA */
         .module-card {
             background: var(--glass);
             border: 1px solid var(--glass-border);
@@ -112,10 +111,10 @@
         }
     </style>
 </head>
-<body class="level-ceo">
+<body>
 
     <header class="command-header">
-        <div class="status-pulse" id="access-label">Sovereign Control Active</div>
+        <div class="status-pulse" id="access-label">Loading System...</div>
         <h1 id="header-title">THE PULSE</h1>
         <div id="live-profit" style="font-size: 3rem; font-weight: 300; margin-top: 10px;">
             RM 0.00
@@ -126,66 +125,58 @@
         </main>
 
     <script type="module">
-        // Import logic (dalam production gunakan path sebenar)
-        // Simulasi data dari src/core/access_control.js
-        const systemConfig = {
-            subscriptions: {
-                executive: true,   // Modul Architect
-                operator: true,    // Modul Specialist
-                inventory: true,   // Modul Inventory
-                sales: false       // Add-on Belum Beli
-            },
-            permissions: {
-                ceo: ["executive", "operator", "inventory", "sales"],
-                executive: ["executive", "inventory"],
-                operator: ["operator"]
-            }
-        };
+        // Mengimport konfigurasi dari fail master
+        import { masterConfig, checkAccess } from './src/core/master_config.js';
 
-        const modules = [
-            { id: 'executive', title: 'The Architect', desc: 'Executive analytics & performance.' },
-            { id: 'operator', title: 'The Specialist', desc: 'Operational workflow & tasking.' },
-            { id: 'inventory', title: 'Global Inventory', desc: 'Asset & luxury resource tracking.' },
-            { id: 'sales', title: 'Revenue Hub', desc: 'Deep-dive into transaction flow.' }
+        // TUKAR USER DI SINI UNTUK TESTING: 'ceo', 'executive', atau 'operator'
+        const currentUser = 'ceo'; 
+
+        const allModules = [
+            { id: 'executive', title: 'The Architect', desc: 'Management & Strategic Analytics' },
+            { id: 'operator', title: 'The Specialist', desc: 'Operational Workflow & Tasks' },
+            { id: 'inventory', title: 'Global Inventory', desc: 'Asset & Luxury Resource Tracking' },
+            { id: 'sales', title: 'Revenue Hub', desc: 'Financial Flow & Transaction History' }
         ];
 
-        // TUKAR USER DI SINI UNTUK TESTING (ceo / executive / operator)
-        const currentUserLevel = 'ceo'; 
-
-        function renderDashboard() {
+        function initDashboard() {
+            const body = document.body;
             const grid = document.getElementById('main-grid');
             const accessLabel = document.getElementById('access-label');
+            
+            // 1. Set Tema & Label secara automatik mengikut Level
+            const userRole = masterConfig.roles[currentUser];
+            body.className = userRole.theme;
+            accessLabel.innerText = `${userRole.label} Access Active`;
+
             grid.innerHTML = '';
 
-            // Update Label Header
-            accessLabel.innerText = `${currentUserLevel.toUpperCase()} Access Active`;
+            // 2. Loop semua modul dengan logik checkAccess
+            allModules.forEach(mod => {
+                const access = checkAccess(currentUser, mod.id);
 
-            modules.forEach(mod => {
-                const isSubscribed = systemConfig.subscriptions[mod.id];
-                const hasPermission = systemConfig.permissions[currentUserLevel].includes(mod.id);
-
-                if (isSubscribed && hasPermission) {
-                    // Tunjuk Kad Aktif
+                if (access.canView) {
+                    // Tunjuk Modul Aktif (Akses Penuh)
                     grid.innerHTML += `
                         <a href="src/modules/${mod.id}/index.html" class="module-card">
                             <h3>${mod.title}</h3>
                             <p>${mod.desc}</p>
                             <div class="indicator"></div>
                         </a>`;
-                } else if (!isSubscribed && currentUserLevel === 'ceo') {
-                    // Jika CEO dan modul belum dibeli (SaaS Upsell)
+                } 
+                else if (access.isLocked && currentUser === 'ceo') {
+                    // Jika CEO, tunjuk modul sebagai "Locked" (Strategi Upsell)
                     grid.innerHTML += `
                         <div class="module-card locked">
                             <h3>${mod.title}</h3>
-                            <p>Premium Add-on</p>
-                            <div class="lock-icon">🔒 Unlock for Elite Access</div>
+                            <p>Premium Feature Locked</p>
+                            <div class="lock-icon">🔒 Contact KETICK to Activate</div>
                         </div>`;
                 }
-                // Jika Operator/Exec tak ada permission, modul terus disorok (Suku/Separuh akses)
+                // Jika Operator/Exec tidak mempunyai kebenaran, modul disorok sepenuhnya
             });
         }
 
-        // Logic Pulse Profit
+        // Logic Pulse Profit (Visual Gimmick)
         let profit = 125480.50;
         const profitElement = document.getElementById('live-profit');
         
@@ -196,7 +187,9 @@
         
         setInterval(updatePulse, 3000);
         updatePulse();
-        renderDashboard();
+
+        // Jalankan sistem
+        initDashboard();
     </script>
 </body>
 </html>
