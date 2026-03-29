@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator | The Specialist Workspace</title>
+    <link rel="stylesheet" href="../../../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 15px;
+            background-color: #f8fafc; /* Warna Arctic White */
+        }
+
+        .operator-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .nav-back {
+            text-decoration: none;
+            color: #64748b;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        header {
+            margin-bottom: 30px;
+            border-left: 4px solid #334155;
+            padding-left: 15px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #1e293b;
+        }
+
+        /* Focus Task Card */
+        .task-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .badge-active {
+            background: #f1f5f9;
+            color: #334155;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Input Form Luxury - Clean & Minimalist */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #334155;
+        }
+
+        .btn-submit {
+            background: #1e293b;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #334155;
+        }
+
+        /* Activity Logs */
+        .logs {
+            margin-top: 30px;
+        }
+
+        .log-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body class="level-operator">
+
+    <div class="operator-container">
+        <a href="../../../index.html" class="nav-back">← Dashboard</a>
+
+        <header>
+            <h1>The Specialist</h1>
+            <p style="font-size: 0.8rem; color: #64748b; margin: 5px 0 0 0;">Active Session: Inventory Module</p>
+        </header>
+
+        <div class="task-card">
+            <div class="task-header">
+                <span style="font-weight: 600;">Log New Entry</span>
+                <span class="badge-active">Focus Mode ON</span>
+            </div>
+
+            <form id="entryForm">
+                <div class="input-group">
+                    <label>Item Name</label>
+                    <input type="text" placeholder="Masukkan nama item...">
+                </div>
+
+                <div class="input-group">
+                    <label>Quantity / Unit</label>
+                    <input type="number" placeholder="0">
+                </div>
+
+                <div class="input-group">
+                    <label>Assigned Section</label>
+                    <select>
+                        <option>Main Warehouse</option>
+                        <option>Outlet Bahau</option>
+                        <option>Outlet Kuala Lumpur</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit">Submit Update</button>
+            </form>
+        </div>
+
+        <div class="logs">
+            <h3 style="font-size: 0.9rem; color: #1e293b;">Recent Activity</h3>
+            <div class="log-item">
+                <span>Update: Stock In - Item A</span>
+                <span>Just Now</span>
+            </div>
+            <div class="log-item">
+                <span>System Sync Completed</span>
+                <span>2 mins ago</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('entryForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Data synced to Cloud (The Architect & Sovereign notified).');
+        });
+    </script>
+
+</body>
+</html>
