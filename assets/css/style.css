@@ -1,0 +1,82 @@
+/* ROOT DNA - Asas Kemewahan */
+:root {
+    --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================
+   LEVEL 1: CEO (FULL LUXURY & ELITE)
+   Vibe: Deep, Mysterious, Gold, Ultra-Minimalist
+   ========================================== */
+.level-ceo {
+    background: radial-gradient(circle at top right, #1a1a1a 0%, #050505 100%);
+    color: #ffffff;
+    font-family: 'Playfair Display', serif;
+}
+
+.level-ceo .card-premium {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.3); /* Border Emas Halus */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+}
+
+.level-ceo .text-accent {
+    color: #D4AF37; /* Champagne Gold */
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+/* ==========================================
+   LEVEL 2: EXECUTIVE (FULL LUXURY)
+   Vibe: Professional, High-Tech, Silver/Slate, Sharp
+   ========================================== */
+.level-executive {
+    background: #0f172a; /* Midnight Blue-Grey */
+    color: #e2e8f0;
+    font-family: 'Inter', sans-serif;
+}
+
+.level-executive .card-premium {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.2); /* Silver Accent */
+    border-left: 4px solid #94a3b8;
+}
+
+.level-executive .text-accent {
+    color: #cbd5e1; /* Slate Silver */
+}
+
+/* ==========================================
+   LEVEL 3: OPERATOR (LUXURY)
+   Vibe: Clean, Fast, Arctic, Efficient
+   ========================================== */
+.level-operator {
+    background: #f8fafc; /* Arctic White/Grey */
+    color: #1e293b;
+    font-family: 'Inter', sans-serif;
+}
+
+.level-operator .card-premium {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.level-operator .text-accent {
+    color: #334155; /* Solid Charcoal */
+}
+
+/* Global Utility for Luxury Feel */
+.glass-effect {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-luxury {
+    padding: 12px 25px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+}
