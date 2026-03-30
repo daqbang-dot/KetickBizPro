@@ -3,159 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory | KETICK Basic Asset Management</title>
+    <title>Inventory | KETICK Elite Asset Management</title>
     <link rel="stylesheet" href="../../../assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            transition: background 0.3s ease;
-        }
+        :root { --obsidian: #0A0A0A; --gold: #D4AF37; }
+        body { margin: 0; padding: 20px; transition: background 0.3s ease; font-family: 'Inter', sans-serif; }
+        
+        /* Tema Adaptif */
+        body.theme-gold { background: var(--obsidian); color: white; }
+        body.theme-white { background: #f8fafc; color: #1e293b; }
 
-        .inventory-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        .inventory-container { max-width: 1000px; margin: 0 auto; }
+        .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .nav-back { text-decoration: none; color: #64748b; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
 
-        .nav-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
+        .inv-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            padding: 20px; border-radius: 12px; backdrop-filter: blur(5px); 
         }
+        body.theme-white .stat-card { background: white; border-color: #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
 
-        .nav-back {
-            text-decoration: none;
-            color: #64748b;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
+        .stat-card h4 { margin: 0; font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; }
+        .stat-card .val { font-size: 1.5rem; font-weight: 600; margin-top: 5px; }
+
+        .search-container { margin-bottom: 20px; position: relative; }
+        #inventorySearch { 
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: inherit; padding: 15px 45px; width: 100%; border-radius: 10px; 
+            font-size: 0.9rem; box-sizing: border-box; outline: none; transition: all 0.3s; 
         }
+        body.theme-white #inventorySearch { background: white; border-color: #e2e8f0; }
+        #inventorySearch:focus { border-color: var(--gold); }
 
-        /* Inventory Summary Cards */
-        .inv-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #64748b; }
+
+        .asset-table-container { 
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 15px; overflow: hidden; 
         }
+        body.theme-white .asset-table-container { background: white; border-color: #e2e8f0; }
 
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 12px;
-            backdrop-filter: blur(5px);
-        }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { padding: 15px; background: rgba(255, 255, 255, 0.05); font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; }
+        td { padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); font-size: 0.9rem; }
+        body.theme-white td { border-bottom-color: #f1f5f9; }
 
-        .stat-card h4 {
-            margin: 0;
-            font-size: 0.7rem;
-            color: #94a3b8;
-            text-transform: uppercase;
-        }
-
-        .stat-card .val {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-top: 5px;
-        }
-
-        /* Search Bar Style */
-        .search-container {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        #inventorySearch {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: inherit; /* Ikut warna tema level */
-            padding: 15px 45px;
-            width: 100%;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        #inventorySearch:focus {
-            border-color: #D4AF37;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-            pointer-events: none;
-        }
-
-        /* Asset Table */
-        .asset-table-container {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            overflow: hidden;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th {
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            font-size: 0.75rem;
-            color: #94a3b8;
-            text-transform: uppercase;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            font-size: 0.9rem;
-        }
-
-        .stock-level {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
+        .stock-level { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
         .level-low { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
         .level-good { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
 
-        .btn-add {
-            background: #D4AF37;
-            color: #000;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
+        .btn-add { background: var(--gold); color: #000; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.8rem; }
     </style>
 </head>
-<body class="level-operator">
+<body>
 
     <div class="inventory-container">
         <div class="nav-header">
             <a href="../../../index.html" class="nav-back">← Dashboard</a>
-            <button class="btn-add">+ Add Asset</button>
+            <button class="btn-add" id="btnAdd">+ Add Asset</button>
         </div>
 
         <header style="margin-bottom: 30px;">
-            <h1 style="margin:0; font-size: 1.8rem;">Global Inventory</h1>
-            <p style="color: #94a3b8; font-size: 0.9rem;">Real-time asset tracking and stock management.</p>
+            <h1 style="margin:0; font-size: 1.8rem;" id="invTitle">Global Inventory</h1>
+            <p id="invSubtitle" style="color: #94a3b8; font-size: 0.9rem;">Real-time asset tracking and stock management.</p>
         </header>
 
         <div class="inv-stats">
@@ -169,7 +82,7 @@
             </div>
             <div class="stat-card">
                 <h4>Warehouse Value</h4>
-                <div class="val">RM 45,200</div>
+                <div class="val" id="valCurrency">RM 45,200</div>
             </div>
         </div>
 
@@ -220,27 +133,30 @@
     </div>
 
     <script type="module">
-        import { masterConfig } from '../../core/master_config.js';
-        
-        // Simulasi setting tema
-        const currentUser = 'operator'; 
-        document.body.className = masterConfig.roles[currentUser].theme;
+        import { masterConfig, checkAccess } from '../../../src/core/master_config.js';
 
-        // LOGIK SEARCH "ULTRA-FAST"
+        // 1. SECURITY GUARD
+        const session = localStorage.getItem('ketick_user_level');
+        if (!session) { window.location.href = '../../../login.html'; }
+
+        // 2. TEMA ADAPTIF
+        const userRole = masterConfig.roles[session];
+        if (userRole) {
+            document.body.className = userRole.theme;
+        }
+
+        // 3. LOGIK SEARCH
         const searchInput = document.getElementById('inventorySearch');
         const rows = document.querySelectorAll('.inventory-row');
         const noResults = document.getElementById('noResults');
 
-        searchInput.addEventListener('keyup', function(e) {
+        searchInput.addEventListener('input', function(e) {
             const term = e.target.value.toLowerCase();
             let foundAny = false;
 
             rows.forEach(row => {
-                const sku = row.querySelector('.sku-cell').textContent.toLowerCase();
-                const name = row.querySelector('.name-cell').textContent.toLowerCase();
-                const cat = row.querySelector('.cat-cell').textContent.toLowerCase();
-
-                if (sku.includes(term) || name.includes(term) || cat.includes(term)) {
+                const text = row.innerText.toLowerCase();
+                if (text.includes(term)) {
                     row.style.display = ""; 
                     foundAny = true;
                 } else {
@@ -249,6 +165,15 @@
             });
 
             noResults.style.display = foundAny ? "none" : "block";
+        });
+
+        // Simulasikan butang tambah hanya untuk CEO/Exec
+        document.getElementById('btnAdd').addEventListener('click', () => {
+            if (session === 'operator') {
+                alert("ACCESS DENIED: Hanya Manager/CEO boleh menambah aset baru.");
+            } else {
+                alert("Membuka Borang Tambah Aset...");
+            }
         });
     </script>
 </body>
