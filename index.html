@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem ERP | Dashboard Utama</title>
+    <title>Sistem ERP | KetickHub</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -17,17 +17,17 @@
             <button id="close-drawer-btn" class="icon-btn"><i class="fas fa-times"></i></button>
         </div>
         <ul class="nav-links">
-            <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fas fa-cash-register"></i> POS</a></li>
-            <li><a href="#"><i class="fas fa-boxes"></i> Inventory</a></li>
-            <li><a href="#"><i class="fas fa-users"></i> CRM</a></li>
-            <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Billing</a></li>
-            <li><a href="#"><i class="fab fa-whatsapp"></i> WA Blast</a></li>
-            <li><a href="#"><i class="fab fa-instagram"></i> Social Media</a></li>
-            <li><a href="#"><i class="fas fa-landmark"></i> LHDN</a></li>
-            <li><a href="#"><i class="fas fa-ticket-alt"></i> Kupon</a></li>
-            <li><a href="#"><i class="fas fa-chart-bar"></i> Report</a></li>
-            <li><a href="#"><i class="fas fa-history"></i> History</a></li>
+            <li><a href="#" class="nav-item active" data-module="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="#" class="nav-item" data-module="pos"><i class="fas fa-cash-register"></i> POS</a></li>
+            <li><a href="#" class="nav-item" data-module="inventory"><i class="fas fa-boxes"></i> Inventory</a></li>
+            <li><a href="#" class="nav-item" data-module="crm"><i class="fas fa-users"></i> CRM</a></li>
+            <li><a href="#" class="nav-item" data-module="billing"><i class="fas fa-file-invoice-dollar"></i> Billing</a></li>
+            <li><a href="#" class="nav-item" data-module="whatsapp"><i class="fab fa-whatsapp"></i> WA Blast</a></li>
+            <li><a href="#" class="nav-item" data-module="social"><i class="fab fa-instagram"></i> Social Media</a></li>
+            <li><a href="#" class="nav-item" data-module="lhdn"><i class="fas fa-landmark"></i> LHDN</a></li>
+            <li><a href="#" class="nav-item" data-module="kupon"><i class="fas fa-ticket-alt"></i> Kupon</a></li>
+            <li><a href="#" class="nav-item" data-module="report"><i class="fas fa-chart-bar"></i> Report</a></li>
+            <li><a href="#" class="nav-item" data-module="history"><i class="fas fa-history"></i> History</a></li>
         </ul>
     </nav>
 
@@ -35,53 +35,15 @@
         <header>
             <div class="header-left">
                 <button id="open-drawer-btn" class="icon-btn"><i class="fas fa-bars"></i></button>
-                <h1>Dashboard Utama</h1>
+                <h1 id="page-title">Dashboard Utama</h1>
             </div>
-            <div class="user-profile">
-                <span>Admin</span>
-            </div>
+            <div class="user-profile"><span>Admin</span></div>
         </header>
 
-        <section class="dashboard-cards">
-            <div class="card">
-                <h3>Jualan Hari Ini</h3>
-                <p>RM 0.00</p>
+        <div id="module-container">
             </div>
-            <div class="card">
-                <h3>Stok Rendah</h3>
-                <p>0 Item</p>
-            </div>
-            <div class="card">
-                <h3>Invois Tertunggak</h3>
-                <p>0</p>
-            </div>
-        </section>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const openBtn = document.getElementById('open-drawer-btn');
-            const closeBtn = document.getElementById('close-drawer-btn');
-            const drawer = document.getElementById('menu-drawer');
-            const overlay = document.getElementById('menu-overlay');
-
-            if (openBtn && drawer && overlay) {
-                openBtn.onclick = function() {
-                    drawer.classList.add('open');
-                    overlay.classList.add('active');
-                };
-
-                closeBtn.onclick = function() {
-                    drawer.classList.remove('open');
-                    overlay.classList.remove('active');
-                };
-
-                overlay.onclick = function() {
-                    drawer.classList.remove('open');
-                    overlay.classList.remove('active');
-                };
-            }
-        });
-    </script>
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
