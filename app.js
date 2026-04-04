@@ -3,21 +3,16 @@
 // ==========================================
 // 1. IMPORT KESEMUA MODUL
 // ==========================================
-/* Nota: Buang komen (//) satu persatu apabila fail .js sudah sedia */
+import { initDashboard } from './dashboard.js';
 import { initPOS } from './pos.js';
 // import { initInventory } from './inventory.js';
 // import { initCRM } from './crm.js';
-// import { initBilling } from './billing.js';
-// import { initWhatsapp } from './whatsapp.js';
-// import { initSocialMedia } from './social.js';
-// import { initLHDN } from './lhdn.js';
-// import { initKupon } from './kupon.js';
-// import { initReport } from './report.js';
-// import { initHistory } from './history.js';
+// ... import modul lain di sini
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("KetickHub ERP: Sistem Sedia.");
 
+    // Elemen DOM Utama
     const container = document.getElementById('module-container');
     const pageTitle = document.getElementById('page-title');
     const navItems = document.querySelectorAll('.nav-item');
@@ -39,30 +34,35 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = html;
             
             // Kemas kini tajuk di header
-            pageTitle.innerText = moduleName.toUpperCase();
+            pageTitle.innerText = moduleName.charAt(0).toUpperCase() + moduleName.slice(1);
 
             // Jalankan logik JavaScript mengikut modul yang dimuatkan
             initModuleLogic(moduleName);
             
             console.log(`Modul ${moduleName} berjaya dimuatkan.`);
         } catch (err) {
-            container.innerHTML = `<div style="padding:20px; color:red;">
-                <h3>Ralat Memuatkan Modul</h3>
-                <p>Pastikan fail 'modul/${moduleName}.html' wujud dan anda menggunakan Live Server.</p>
-            </div>`;
+            container.innerHTML = `
+                <div style="padding:20px; color:#e74c3c; text-align:center;">
+                    <i class="fas fa-exclamation-triangle fa-3x"></i>
+                    <h3>Ralat Memuatkan Modul</h3>
+                    <p>Fail 'modul/${moduleName}.html' tidak ditemui atau ralat pelayan berlaku.</p>
+                </div>`;
         }
     }
 
-    // Fungsi untuk panggil init() bagi modul spesifik
+    // Fungsi pusat untuk panggil init() bagi modul spesifik
     function initModuleLogic(name) {
         switch(name) {
+            case 'dashboard':
+                initDashboard();
+                break;
             case 'pos':
                 initPOS();
                 break;
             case 'inventory':
                 // initInventory(); 
                 break;
-            // Tambah kes lain di sini apabila modul sudah sedia
+            // Tambah kes lain di sini (crm, billing, dll)
         }
     }
 
@@ -70,27 +70,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. LOGIK UI: DRAWER & NAVIGASI
     // ==========================================
     
-    // Fungsi Buka/Tutup Drawer
     const toggleDrawer = (isOpen) => {
-        drawer.classList.toggle('open', isOpen);
-        overlay.classList.toggle('active', isOpen);
+        if (drawer && overlay) {
+            drawer.classList.toggle('open', isOpen);
+            overlay.classList.toggle('active', isOpen);
+        }
     };
 
+    // Event Listeners untuk Butang Menu
     document.getElementById('open-drawer-btn').onclick = () => toggleDrawer(true);
     document.getElementById('close-drawer-btn').onclick = () => toggleDrawer(false);
     overlay.onclick = () => toggleDrawer(false);
 
-    // Event Listener untuk setiap item menu
+    // Navigasi Klik untuk Menu Drawer
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
             const module = item.getAttribute('data-module');
             
-            // Kemas kini gaya butang aktif
+            // Kemas kini gaya butang aktif (UI)
             navItems.forEach(nav => nav.classList.remove('active'));
             item.classList.add('active');
 
-            // Muat kandungan & tutup drawer
+            // Muat kandungan modul & tutup drawer
             loadModule(module);
             toggleDrawer(false);
         });
@@ -100,9 +102,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. KONFIGURASI AWAL (STARTUP)
     // ==========================================
     
-    // 1. Muat Dashboard secara automatik
+    // Muat Dashboard secara automatik semasa mula
     loadModule('dashboard');
 
-    // 2. TODO: Semak status Firebase Auth di sini
-    // 3. TODO: Inisialisasi Firebase App
+    // Space untuk Firebase Integration nanti
+    // TODO: firebase.initializeApp(config);
 });
