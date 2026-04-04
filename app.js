@@ -25,7 +25,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // TODO: Check User Authentication status (Pastikan pengguna log masuk sebelum sistem dibuka)
 
     // ==========================================
-    // 3. PENGAKTIFAN MODUL
+    // 3. LOGIK UI: PENGURUSAN MENU DRAWER
+    // ==========================================
+    const openBtn = document.getElementById('open-drawer-btn');
+    const closeBtn = document.getElementById('close-drawer-btn');
+    const drawer = document.getElementById('menu-drawer');
+    const overlay = document.getElementById('menu-overlay');
+
+    // Fungsi buka drawer
+    function openDrawer() {
+        drawer.classList.add('open');
+        overlay.classList.add('active');
+    }
+
+    // Fungsi tutup drawer
+    function closeDrawer() {
+        drawer.classList.remove('open');
+        overlay.classList.remove('active');
+    }
+
+    // Pautan klik (Event Listeners)
+    openBtn.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer); // Tutup bila klik di luar kawasan menu
+
+    // ==========================================
+    // 4. PENGAKTIFAN MODUL
     // ==========================================
     const pos = initPOS();
     const inventory = initInventory();
@@ -39,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const history = initHistory();
 
     // ==========================================
-    // 4. PAPARAN DASHBOARD
+    // 5. PAPARAN DASHBOARD
     // ==========================================
     // TODO: Load Dashboard Data (Tarik jumlah jualan terkini dan amaran stok rendah dari db)
     
