@@ -1,0 +1,26 @@
+<section class="pos-container">
+    <div class="pos-catalog">
+        <div class="search-scanner-bar">
+            <input type="text" id="pos-search" placeholder="Cari produk...">
+            <button class="scanner-btn"><i class="fas fa-barcode"></i></button>
+        </div>
+        <div class="product-grid" id="product-grid"></div>
+    </div>
+
+    <div class="pos-cart-section">
+        <div class="cart-header">
+            <h2>Pesanan</h2>
+            <button class="void-btn"><i class="fas fa-trash-alt"></i></button>
+        </div>
+        <div class="cart-items-container" id="cart-items"></div>
+        <div class="cart-summary">
+            <div class="summary-row"><span>Subtotal</span><span id="cart-subtotal">RM 0.00</span></div>
+            <div class="summary-row"><span>Cukai (6%)</span><span id="cart-tax">RM 0.00</span></div>
+            <div class="summary-row total-row"><span>JUMLAH</span><span id="cart-total">RM 0.00</span></div>
+        </div>
+        <div class="payment-methods">
+            <button class="pay-btn cash" onclick="prosesBayaran('tunai')">Tunai</button>
+            <button class="pay-btn card" onclick="prosesBayaran('kad')">Kad/e-Wallet</button>
+        </div>
+    </div>
+</section>
