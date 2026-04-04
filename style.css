@@ -1,152 +1,33 @@
-/* Tetapan Asas */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+body { background-color: #f4f7f6; display: flex; min-height: 100vh; overflow-x: hidden; }
 
-body {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f4f7f6;
-    overflow-x: hidden;
-}
+/* Drawer & Overlay */
+.drawer { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #2c3e50; transition: 0.3s; z-index: 1000; color: white; }
+.drawer.open { left: 0 !important; }
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); visibility: hidden; opacity: 0; transition: 0.3s; z-index: 999; }
+.overlay.active { visibility: visible !important; opacity: 1 !important; }
 
-/* --- Menu Drawer (Tarik Tepi) --- */
-.drawer {
-    position: fixed;
-    top: 0;
-    left: -280px; /* Sembunyi di luar skrin */
-    width: 280px;
-    height: 100%;
-    background-color: #2c3e50;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    transition: left 0.3s ease-in-out;
-    z-index: 1000;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-}
+.drawer-header { padding: 20px; display: flex; justify-content: space-between; background: #1a252f; }
+.nav-links { list-style: none; margin-top: 10px; }
+.nav-links li a { display: block; padding: 15px 20px; color: #bdc3c7; text-decoration: none; }
+.nav-links li a.active { background: #34495e; color: white; border-left: 4px solid #3498db; }
 
-.drawer.open {
-    left: 0 !important; /* Memaksa menu muncul ke dalam skrin */
-}
+/* Main Content */
+.content { flex: 1; width: 100%; }
+header { background: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.header-left { display: flex; align-items: center; gap: 15px; }
+.icon-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #2c3e50; }
 
-.drawer-header {
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1a252f;
-}
+/* Dashboard Cards */
+.dashboard-cards { display: flex; gap: 20px; padding: 20px; flex-wrap: wrap; }
+.card { background: white; padding: 20px; border-radius: 8px; flex: 1; min-width: 200px; border-top: 4px solid #3498db; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-.nav-links {
-    list-style: none;
-    margin-top: 10px;
-    overflow-y: auto;
-}
+/* POS Layout */
+.pos-container { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; padding: 20px; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 15px; }
+.product-card { background: white; padding: 10px; border-radius: 5px; text-align: center; cursor: pointer; border: 1px solid #ddd; }
+.pos-cart-section { background: white; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; min-height: 400px; }
+.cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+.pay-btn { width: 100%; padding: 15px; margin-top: 10px; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; background: #27ae60; }
 
-.nav-links li a {
-    display: block;
-    padding: 15px 20px;
-    color: #bdc3c7;
-    text-decoration: none;
-    transition: 0.2s;
-}
-
-.nav-links li a:hover, .nav-links li a.active {
-    background-color: #34495e;
-    color: white;
-    border-left: 4px solid #3498db;
-}
-
-.nav-links li a i {
-    margin-right: 15px;
-    width: 20px;
-    text-align: center;
-}
-
-/* --- Overlay (Latar Belakang Gelap) --- */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.3s ease-in-out;
-    z-index: 999;
-}
-
-.overlay.active {
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-/* --- Main Content --- */
-.content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-header {
-    background-color: white;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-/* Gaya Butang (Hamburger & Pangkah) */
-.icon-btn {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: #2c3e50;
-}
-
-.drawer-header .icon-btn {
-    color: white;
-}
-
-.dashboard-cards {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-    flex-wrap: wrap;
-}
-
-.card {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    flex: 1;
-    min-width: 200px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    border-top: 4px solid #3498db;
-}
-
-.card h3 {
-    font-size: 14px;
-    color: #7f8c8d;
-    margin-bottom: 10px;
-}
-
-.card p {
-    font-size: 24px;
-    font-weight: bold;
-    color: #2c3e50;
-}
+@media (max-width: 768px) { .pos-container { grid-template-columns: 1fr; } }
