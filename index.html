@@ -9,9 +9,12 @@
 </head>
 <body>
 
-    <nav class="sidebar">
-        <div class="brand">
-            <h2>ERP SISTEM</h2>
+    <div id="menu-overlay" class="overlay"></div>
+
+    <nav id="menu-drawer" class="drawer">
+        <div class="drawer-header">
+            <h2>KetickHub ERP</h2>
+            <button id="close-drawer-btn" class="icon-btn"><i class="fas fa-times"></i></button>
         </div>
         <ul class="nav-links">
             <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
@@ -30,7 +33,8 @@
 
     <main class="content">
         <header>
-            <div class="header-title">
+            <div class="header-left">
+                <button id="open-drawer-btn" class="icon-btn"><i class="fas fa-bars"></i></button>
                 <h1>Dashboard Utama</h1>
             </div>
             <div class="user-profile">
